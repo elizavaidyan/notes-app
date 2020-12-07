@@ -1,15 +1,17 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
-const getNotes =  function() {
+const getNotes = () => {    //Arrow function
     return "Your notes...";
 }
 
-const addNotes = function(title, body) {   //Adding note to the data store
+const addNotes = (title, body) => {   //Adding note to the data store
     const notes = loadNotes();
-    const duplicateNotes = notes.filter(function(note) { //calledone time for every note in notes array; returns true if thre is duplicate note else false and stores the filtered array to the duplicateNtes
-        return note.title === title;
-    })
+    const duplicateNotes = notes.filter((note) => note.title === title)  //Arrow function
+
+    // const duplicateNotes = notes.filter(function(note) {         //Std function format
+    //     return note.title === title;
+    // })
 
     if(duplicateNotes.length === 0) {
         notes.push({
@@ -23,28 +25,24 @@ const addNotes = function(title, body) {   //Adding note to the data store
     }
 }
 
-const removeNote = function (title) {
+const removeNote = (title) => {             //Arrow function
     const notes = loadNotes();
-    const noteToKeep = notes.filter(function(note) {
-        return note.title !== title;
-    })
+    const noteToKeep = notes.filter((note) => note.title !== title)
     if(notes.length > noteToKeep.length) {
         console.log(chalk.green.inverse("Note Removed"));
         saveNotes(noteToKeep);
     } else {
         console.log(chalk.inverse.red("No Note found"));
     }
-    
-    
-    
+       
 }
 
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {  //Arrow function
     const dataJSON = JSON.stringify(notes);
     fs.writeFileSync('notes.json', dataJSON);
 }
 
-const loadNotes = function() {  //returns an array of notes
+const loadNotes = () => {  //returns an array of notes;Arrow function
     try {
         const dataBuffer = fs.readFileSync('notes.json'); //IT works only if there is a file with JSON data
         const dataJSON = dataBuffer.toString();
