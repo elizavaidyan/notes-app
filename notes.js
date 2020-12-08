@@ -1,19 +1,21 @@
 const fs = require('fs');
 const chalk = require('chalk');
+const { title } = require('process');
 
-const getNotes = () => {    //Arrow function
-    return "Your notes...";
-}
 
 const addNotes = (title, body) => {   //Adding note to the data store
     const notes = loadNotes();
-    const duplicateNotes = notes.filter((note) => note.title === title)  //Arrow function
+    //const duplicateNotes = notes.filter((note) => note.title === title)  //Arrow function
 
     // const duplicateNotes = notes.filter(function(note) {         //Std function format
     //     return note.title === title;
     // })
 
-    if(duplicateNotes.length === 0) {
+    const duplicateNote = notes.find((note) => note.title === title)
+
+    debugger
+    
+    if(!duplicateNote) {   //OR if(duplicateNote === undefined)
         notes.push({
             title: title,
             body: body
@@ -37,6 +39,25 @@ const removeNote = (title) => {             //Arrow function
        
 }
 
+const listNotes = () => {  
+    console.log(chalk.inverse("Your Notes"));         //Arrow function
+    const notes = loadNotes();
+     notes.forEach((note) => {
+         console.log(note.title);
+     });   
+}
+
+const readNote = (title) => {
+    const notes = loadNotes();
+    const noteFound = notes.find((note) => note.title === title)
+    if(noteFound) {
+        console.log(chalk.blue.inverse.italic(noteFound.title));
+        console.log(noteFound.body);
+    } else {
+        console.log(chalk.red.inverse("No Note Found"));
+    }
+}
+
 const saveNotes = (notes) => {  //Arrow function
     const dataJSON = JSON.stringify(notes);
     fs.writeFileSync('notes.json', dataJSON);
@@ -54,7 +75,8 @@ const loadNotes = () => {  //returns an array of notes;Arrow function
 }
 
 module.exports = {      //Object 
-    getNotes: getNotes, //Property : value to the property
-    addNotes : addNotes,
-    removeNote: removeNote
+    addNotes : addNotes, //Property : value to the property
+    removeNote: removeNote,
+    listNotes: listNotes,
+    readNote: readNote
 };

@@ -38,7 +38,7 @@ yargs.command({
     describe : 'Remove a note',
     builder : {
         title : {
-            title : "Note Title",
+            describe : "Note Title",
             demandOption : true,
             type : 'string'
         }
@@ -53,8 +53,15 @@ yargs.command({
 yargs.command({
     command : 'read',
     describe : 'read a note',
-    handler() { //ES6 fun
-        console.log("Reading a note")
+    builder : {   //builder property whose value is an object
+        title: {
+            describe: 'Note Title',
+            demandOption: true,
+            type: string
+        }
+    },
+    handler(argv) { //ES6 fun
+        notes.readNote(argv.title)
     }
 })
 
@@ -62,9 +69,10 @@ yargs.command({
 
 yargs.command({
     command : 'list',
-    describe : 'List a note',
-    handler() {   //ES6 fun
-        console.log("Listing out a note")
+    describe : 'List Notes',
+   
+    handler(argv) {     //ES6 fun
+        notes.listNotes();
     }
 })
 
